@@ -43,10 +43,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {navItems.map(({ to, icon: Icon, label, end }) => (
           <NavLink
             key={to}
             to={to}
+            end={end}
             onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
               cn(
