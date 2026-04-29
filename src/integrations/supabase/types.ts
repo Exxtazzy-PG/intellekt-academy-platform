@@ -129,6 +129,39 @@ export type Database = {
           },
         ]
       }
+      subjects: {
+        Row: {
+          color: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          icon: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tests: {
         Row: {
           created_at: string
@@ -166,25 +199,34 @@ export type Database = {
       }
       topics: {
         Row: {
+          content: string | null
           created_at: string
           created_by: string
           description: string | null
           id: string
+          subject_id: string | null
           title: string
+          updated_at: string
         }
         Insert: {
+          content?: string | null
           created_at?: string
           created_by: string
           description?: string | null
           id?: string
+          subject_id?: string | null
           title: string
+          updated_at?: string
         }
         Update: {
+          content?: string | null
           created_at?: string
           created_by?: string
           description?: string | null
           id?: string
+          subject_id?: string | null
           title?: string
+          updated_at?: string
         }
         Relationships: []
       }
