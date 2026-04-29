@@ -27,11 +27,31 @@ export const uz = {
   registering: "Ro'yxatdan o'tilmoqda...",
 
   // Nav
+  dashboard: "Bosh sahifa",
+  subjects: "Fanlar",
   students: "Talabalar",
   topics: "Mavzular",
   tests: "Testlar",
   settings: "Sozlamalar",
-  dashboard: "Bosh sahifa",
+
+  // Subjects
+  subjectsTitle: "Fanlar katalogi",
+  subjectsSubtitle: "Barcha o'quv fanlari va yo'nalishlari",
+  newSubject: "Yangi fan",
+  subjectName: "Fan nomi",
+  subjectDescription: "Tavsif",
+  subjectColor: "Rang",
+  noSubjects: "Hozircha fanlar yo'q",
+  topicsInSubject: "Mavzular",
+  selectSubject: "Fanni tanlang",
+  allSubjects: "Barcha fanlar",
+  noSubject: "Fansiz",
+
+  // Topic content
+  topicContent: "Mavzu materiali",
+  topicContentPlaceholder: "Bu yerda talabalar uchun batafsil ma'lumot yozing...",
+  readMaterial: "Materialni o'qish",
+  noContent: "Ushbu mavzu uchun material qo'shilmagan",
 
   // Roles
   ustoz: "Ustoz",

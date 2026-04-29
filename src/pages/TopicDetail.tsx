@@ -10,10 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, FileQuestion, Plus, Loader2, Play, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, FileQuestion, Plus, Loader2, Play, Pencil, Trash2, BookOpenText } from "lucide-react";
 import { toast } from "sonner";
 
-interface Topic { id: string; title: string; description: string | null; }
+interface Topic { id: string; title: string; description: string | null; content: string | null; }
 interface Test { id: string; title: string; description: string | null; created_at: string; }
 
 const TopicDetail = () => {
@@ -88,6 +88,22 @@ const TopicDetail = () => {
           <h1 className="font-display font-black text-3xl md:text-4xl mb-2">{topic.title}</h1>
           {topic.description && <p className="text-primary-foreground/80 max-w-2xl">{topic.description}</p>}
         </div>
+      </Card>
+
+      <Card className="p-6 md:p-8 mb-8 bg-card border-0 shadow-card">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-xl bg-accent/15 flex items-center justify-center">
+            <BookOpenText className="h-5 w-5 text-accent" />
+          </div>
+          <h2 className="font-display font-bold text-xl">{uz.topicContent}</h2>
+        </div>
+        {topic.content ? (
+          <div className="prose prose-sm md:prose-base max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+            {topic.content}
+          </div>
+        ) : (
+          <p className="text-muted-foreground italic">{uz.noContent}</p>
+        )}
       </Card>
 
       <div className="flex items-center justify-between mb-6">

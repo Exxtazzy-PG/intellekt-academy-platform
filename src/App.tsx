@@ -12,6 +12,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Students from "./pages/Students";
+import Subjects from "./pages/Subjects";
 import Topics from "./pages/Topics";
 import TopicDetail from "./pages/TopicDetail";
 import Tests from "./pages/Tests";
@@ -48,6 +49,7 @@ const App = () => {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Shell><Index /></Shell>} />
                 <Route path="/students" element={<Shell><Students /></Shell>} />
+                <Route path="/subjects" element={<Shell><Subjects /></Shell>} />
                 <Route path="/topics" element={<Shell><Topics /></Shell>} />
                 <Route path="/topics/:id" element={<Shell><TopicDetail /></Shell>} />
                 <Route path="/tests" element={<Shell><Tests /></Shell>} />

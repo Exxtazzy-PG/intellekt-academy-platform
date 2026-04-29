@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, BookOpen, FileQuestion, Settings, LogOut, GraduationCap, Menu, X } from "lucide-react";
+import { Users, BookOpen, FileQuestion, Settings, LogOut, GraduationCap, Menu, X, LayoutDashboard, Library } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
@@ -15,9 +15,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const initials = `${profile?.first_name?.[0] ?? ""}${profile?.last_name?.[0] ?? ""}`.toUpperCase() || "?";
 
   const navItems = [
-    { to: "/students", icon: Users, label: uz.students },
+    { to: "/", icon: LayoutDashboard, label: uz.dashboard, end: true },
+    { to: "/subjects", icon: Library, label: uz.subjects },
     { to: "/topics", icon: BookOpen, label: uz.topics },
     { to: "/tests", icon: FileQuestion, label: uz.tests },
+    ...(role === "ustoz" ? [{ to: "/students", icon: Users, label: uz.students }] : []),
     { to: "/settings", icon: Settings, label: uz.settings },
   ];
 
@@ -41,10 +43,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {navItems.map(({ to, icon: Icon, label, end }) => (
           <NavLink
             key={to}
             to={to}
+            end={end}
             onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
               cn(
