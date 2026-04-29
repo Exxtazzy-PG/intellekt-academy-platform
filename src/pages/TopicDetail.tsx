@@ -90,6 +90,22 @@ const TopicDetail = () => {
         </div>
       </Card>
 
+      <Card className="p-6 md:p-8 mb-8 bg-card border-0 shadow-card">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-xl bg-accent/15 flex items-center justify-center">
+            <BookOpenText className="h-5 w-5 text-accent" />
+          </div>
+          <h2 className="font-display font-bold text-xl">{uz.topicContent}</h2>
+        </div>
+        {topic.content ? (
+          <div className="prose prose-sm md:prose-base max-w-none text-foreground whitespace-pre-wrap leading-relaxed">
+            {topic.content}
+          </div>
+        ) : (
+          <p className="text-muted-foreground italic">{uz.noContent}</p>
+        )}
+      </Card>
+
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-display font-bold text-2xl">{uz.tests}</h2>
         {role === "ustoz" && <Button variant="hero" onClick={() => setOpen(true)}><Plus /> {uz.newTest}</Button>}
