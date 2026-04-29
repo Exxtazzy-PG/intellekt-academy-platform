@@ -10,10 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, FileQuestion, Plus, Loader2, Play, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, FileQuestion, Plus, Loader2, Play, Pencil, Trash2, BookOpenText } from "lucide-react";
 import { toast } from "sonner";
 
-interface Topic { id: string; title: string; description: string | null; }
+interface Topic { id: string; title: string; description: string | null; content: string | null; }
 interface Test { id: string; title: string; description: string | null; created_at: string; }
 
 const TopicDetail = () => {
