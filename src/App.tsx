@@ -18,6 +18,11 @@ import TopicDetail from "./pages/TopicDetail";
 import Tests from "./pages/Tests";
 import TestEdit from "./pages/TestEdit";
 import TestTake from "./pages/TestTake";
+import Assignments from "./pages/Assignments";
+import AssignmentDetail from "./pages/AssignmentDetail";
+import MyAssignments from "./pages/MyAssignments";
+import AssignmentTake from "./pages/AssignmentTake";
+import AssignmentReview from "./pages/AssignmentReview";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -55,6 +60,11 @@ const App = () => {
                 <Route path="/tests" element={<Shell><Tests /></Shell>} />
                 <Route path="/tests/:id/edit" element={<Shell><TestEdit /></Shell>} />
                 <Route path="/tests/:id/take" element={<Shell><TestTake /></Shell>} />
+                <Route path="/assignments" element={<Shell><Assignments /></Shell>} />
+                <Route path="/assignments/:id" element={<Shell><AssignmentDetail /></Shell>} />
+                <Route path="/my-assignments" element={<Shell><MyAssignments /></Shell>} />
+                <Route path="/my-assignments/:id/take" element={<Shell><AssignmentTake /></Shell>} />
+                <Route path="/my-assignments/:id" element={<Shell><AssignmentReview /></Shell>} />
                 <Route path="/settings" element={<Shell><Settings /></Shell>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
