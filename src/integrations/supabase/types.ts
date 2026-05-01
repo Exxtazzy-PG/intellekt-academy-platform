@@ -14,6 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
+      assignment_questions: {
+        Row: {
+          assignment_id: string
+          created_at: string
+          id: string
+          position: number
+          question_id: string
+          student_id: string
+        }
+        Insert: {
+          assignment_id: string
+          created_at?: string
+          id?: string
+          position?: number
+          question_id: string
+          student_id: string
+        }
+        Update: {
+          assignment_id?: string
+          created_at?: string
+          id?: string
+          position?: number
+          question_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_questions_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "test_assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignment_questions_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignment_students: {
+        Row: {
+          assignment_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          score: number
+          started_at: string | null
+          status: string
+          student_id: string
+          total: number
+        }
+        Insert: {
+          assignment_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          score?: number
+          started_at?: string | null
+          status?: string
+          student_id: string
+          total?: number
+        }
+        Update: {
+          assignment_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          score?: number
+          started_at?: string | null
+          status?: string
+          student_id?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_students_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "test_assignments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attempts: {
         Row: {
           answers: Json
@@ -54,6 +140,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          link: string | null
+          message: string | null
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          link?: string | null
+          message?: string | null
+          read?: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          link?: string | null
+          message?: string | null
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -129,6 +248,57 @@ export type Database = {
           },
         ]
       }
+      student_answers: {
+        Row: {
+          answered_at: string
+          assignment_id: string
+          id: string
+          is_correct: boolean
+          question_id: string
+          selected_option: string | null
+          student_id: string
+          time_taken_seconds: number | null
+          timed_out: boolean
+        }
+        Insert: {
+          answered_at?: string
+          assignment_id: string
+          id?: string
+          is_correct?: boolean
+          question_id: string
+          selected_option?: string | null
+          student_id: string
+          time_taken_seconds?: number | null
+          timed_out?: boolean
+        }
+        Update: {
+          answered_at?: string
+          assignment_id?: string
+          id?: string
+          is_correct?: boolean
+          question_id?: string
+          selected_option?: string | null
+          student_id?: string
+          time_taken_seconds?: number | null
+          timed_out?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_answers_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "test_assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subjects: {
         Row: {
           color: string | null
@@ -161,6 +331,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      test_assignments: {
+        Row: {
+          answers_published: boolean
+          created_at: string
+          created_by: string
+          deadline: string | null
+          id: string
+          questions_per_student: number
+          seconds_per_question: number
+          test_id: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          answers_published?: boolean
+          created_at?: string
+          created_by: string
+          deadline?: string | null
+          id?: string
+          questions_per_student?: number
+          seconds_per_question?: number
+          test_id: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          answers_published?: boolean
+          created_at?: string
+          created_by?: string
+          deadline?: string | null
+          id?: string
+          questions_per_student?: number
+          seconds_per_question?: number
+          test_id?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_assignments_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tests: {
         Row: {
