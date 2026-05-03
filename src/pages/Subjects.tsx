@@ -104,7 +104,7 @@ const Subjects = () => {
             <div className="h-10 w-10 rounded-xl bg-accent/15 flex items-center justify-center">
               <Library className="h-5 w-5 text-accent" />
             </div>
-            <h1 className="font-display font-bold text-3xl md:text-4xl">{uz.subjectsTitle}</h1>
+            <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl">{uz.subjectsTitle}</h1>
           </div>
           <p className="text-muted-foreground">{uz.subjectsSubtitle}</p>
         </div>
