@@ -9,18 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowLeft, Plus, Loader2, Trash2, Save } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import { ArrowLeft, Plus, Loader2, Trash2, Save, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
-interface Test { id: string; title: string; }
+interface Test { id: string; title: string; topic_id: string; }
+interface Topic { id: string; title: string; content: string | null; }
 interface Question {
   id: string;
   test_id: string;
   question_text: string;
-  option_a: string;
-  option_b: string;
-  option_c: string;
-  option_d: string;
+  option_a: string; option_b: string; option_c: string; option_d: string;
   correct_option: string;
   position: number;
 }
@@ -32,20 +31,28 @@ const TestEdit = () => {
   const navigate = useNavigate();
   const { role } = useAuth();
   const [test, setTest] = useState<Test | null>(null);
+  const [topic, setTopic] = useState<Topic | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(empty);
   const [adding, setAdding] = useState(false);
 
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiCount, setAiCount] = useState(10);
+  const [aiExtra, setAiExtra] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
+
   const load = async () => {
     if (!id) return;
     setLoading(true);
-    const [{ data: t }, { data: qs }] = await Promise.all([
-      supabase.from("tests").select("id, title").eq("id", id).maybeSingle(),
+    const { data: t } = await supabase.from("tests").select("id, title, topic_id").eq("id", id).maybeSingle();
+    setTest(t as any);
+    const [{ data: qs }, topicRes] = await Promise.all([
       supabase.from("questions").select("*").eq("test_id", id).order("position", { ascending: true }),
+      t?.topic_id ? supabase.from("topics").select("id, title, content").eq("id", t.topic_id).maybeSingle() : Promise.resolve({ data: null } as any),
     ]);
-    setTest(t);
     setQuestions(qs ?? []);
+    setTopic((topicRes as any).data ?? null);
     setLoading(false);
   };
 
@@ -82,6 +89,52 @@ const TestEdit = () => {
     load();
   };
 
+  const generateWithAi = async () => {
+    if (!topic) return toast.error("Mavzu topilmadi");
+    if (!topic.content || topic.content.trim().length < 20) {
+      return toast.error("Avval mavzuga material qo'shing (kamida 20 ta belgi)");
+    }
+    const n = Math.max(1, Math.min(1000, Number(aiCount) || 10));
+    setAiBusy(true);
+    const tId = toast.loading(`AI ${n} ta savol yaratmoqda...`);
+    try {
+      const { data, error } = await supabase.functions.invoke("ai-generate-questions", {
+        body: { topicTitle: topic.title, topicContent: topic.content, count: n, extraInstructions: aiExtra },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      const generated: any[] = (data as any)?.questions ?? [];
+      if (!generated.length) throw new Error("AI hech qanday savol qaytarmadi");
+
+      const startPos = questions.length;
+      const rows = generated.map((q, i) => ({
+        test_id: id!,
+        question_text: String(q.question_text || "").slice(0, 1000),
+        option_a: String(q.option_a || "").slice(0, 500),
+        option_b: String(q.option_b || "").slice(0, 500),
+        option_c: String(q.option_c || "").slice(0, 500),
+        option_d: String(q.option_d || "").slice(0, 500),
+        correct_option: ["a","b","c","d"].includes(q.correct_option) ? q.correct_option : "a",
+        position: startPos + i,
+      }));
+      // Insert in chunks of 100
+      for (let i = 0; i < rows.length; i += 100) {
+        const { error: ie } = await supabase.from("questions").insert(rows.slice(i, i + 100));
+        if (ie) throw ie;
+      }
+      toast.dismiss(tId);
+      toast.success(`${rows.length} ta savol qo'shildi`);
+      setAiOpen(false);
+      setAiExtra("");
+      load();
+    } catch (e: any) {
+      toast.dismiss(tId);
+      toast.error(e?.message || "Xatolik");
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
   if (role !== "ustoz") return <div className="text-center py-20"><p className="text-muted-foreground">Faqat ustoz uchun</p></div>;
   if (loading) return <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
 
@@ -89,8 +142,15 @@ const TestEdit = () => {
     <div className="animate-fade-in-up max-w-4xl mx-auto">
       <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4 -ml-3"><ArrowLeft className="h-4 w-4" />{uz.back}</Button>
 
-      <h1 className="font-display font-bold text-3xl mb-2">{test?.title}</h1>
-      <p className="text-muted-foreground mb-8">{questions.length} {uz.questions}</p>
+      <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
+        <div>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl mb-1">{test?.title}</h1>
+          <p className="text-muted-foreground">{questions.length} {uz.questions}</p>
+        </div>
+        <Button variant="hero" onClick={() => setAiOpen(true)} className="shadow-glow">
+          <Sparkles className="h-4 w-4" /> AI yordamida yaratish
+        </Button>
+      </div>
 
       <div className="space-y-3 mb-8">
         {questions.map((q, i) => (
@@ -149,6 +209,53 @@ const TestEdit = () => {
           </Button>
         </div>
       </Card>
+
+      <Dialog open={aiOpen} onOpenChange={(o) => !aiBusy && setAiOpen(o)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Wand2 className="h-5 w-5 text-accent" /> AI bilan savollar yaratish</DialogTitle>
+            <DialogDescription>
+              Mavzu materiali asosida AI avtomatik test savollarini yaratadi. Mavzu: <b>{topic?.title}</b>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            {(!topic?.content || topic.content.trim().length < 20) && (
+              <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+                Bu mavzuda yetarli material yo'q. Avval mavzuga ma'lumot qo'shing.
+              </div>
+            )}
+            <div className="space-y-1.5">
+              <Label>Savollar soni (1–1000)</Label>
+              <Input type="number" min={1} max={1000} value={aiCount} onChange={(e) => setAiCount(Number(e.target.value))} />
+              <div className="flex flex-wrap gap-2 pt-1">
+                {[10, 25, 50, 100, 250, 500, 1000].map((n) => (
+                  <Button key={n} type="button" variant="soft" size="sm" onClick={() => setAiCount(n)}>{n}</Button>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>Qo'shimcha ko'rsatma (ixtiyoriy)</Label>
+              <Textarea
+                value={aiExtra}
+                onChange={(e) => setAiExtra(e.target.value)}
+                placeholder="Masalan: oson darajada, faqat ta'riflar bo'yicha, hisob-kitob savollarisiz..."
+                rows={3}
+                maxLength={500}
+              />
+            </div>
+            {aiCount > 100 && (
+              <p className="text-xs text-muted-foreground">⚠️ Ko'p savol yaratish bir necha daqiqa olishi mumkin.</p>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAiOpen(false)} disabled={aiBusy}>{uz.cancel}</Button>
+            <Button variant="hero" onClick={generateWithAi} disabled={aiBusy || !topic?.content}>
+              {aiBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+              Yaratish
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
