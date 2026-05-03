@@ -66,6 +66,7 @@ const App = () => {
                 <Route path="/my-assignments" element={<Shell><MyAssignments /></Shell>} />
                 <Route path="/my-assignments/:id/take" element={<Shell><AssignmentTake /></Shell>} />
                 <Route path="/my-assignments/:id" element={<Shell><AssignmentReview /></Shell>} />
+                <Route path="/leaderboard" element={<Shell><Leaderboard /></Shell>} />
                 <Route path="/settings" element={<Shell><Settings /></Shell>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
