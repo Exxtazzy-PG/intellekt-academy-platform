@@ -24,6 +24,7 @@ import MyAssignments from "./pages/MyAssignments";
 import AssignmentTake from "./pages/AssignmentTake";
 import AssignmentReview from "./pages/AssignmentReview";
 import Settings from "./pages/Settings";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
