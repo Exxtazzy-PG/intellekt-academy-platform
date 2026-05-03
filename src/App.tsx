@@ -24,6 +24,7 @@ import MyAssignments from "./pages/MyAssignments";
 import AssignmentTake from "./pages/AssignmentTake";
 import AssignmentReview from "./pages/AssignmentReview";
 import Settings from "./pages/Settings";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -65,6 +66,7 @@ const App = () => {
                 <Route path="/my-assignments" element={<Shell><MyAssignments /></Shell>} />
                 <Route path="/my-assignments/:id/take" element={<Shell><AssignmentTake /></Shell>} />
                 <Route path="/my-assignments/:id" element={<Shell><AssignmentReview /></Shell>} />
+                <Route path="/leaderboard" element={<Shell><Leaderboard /></Shell>} />
                 <Route path="/settings" element={<Shell><Settings /></Shell>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

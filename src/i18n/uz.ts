@@ -171,6 +171,17 @@ export const uz = {
   publishConfirm: "Javoblarni e'lon qilasizmi? Talabalar o'z natijalarini ko'ra oladilar.",
   withinHours: "soat ichida",
 
+  // Leaderboard
+  leaderboard: "Reyting",
+  leaderboardTitle: "Eng yaxshi talabalar",
+  leaderboardSubtitle: "Test natijalari bo'yicha eng kuchli o'quvchilar",
+  rank: "O'rni",
+  student: "Talaba",
+  totalScore: "Jami ball",
+  testsCompleted: "Yakunlangan",
+  noLeaderboard: "Hozircha natijalar yo'q",
+  yourRank: "Sizning o'rningiz",
+
   // Notifications
   noNotifications: "Bildirishnomalar yo'q",
   markAllRead: "Hammasini o'qilgan deb belgilash",
