@@ -21,7 +21,7 @@ const AssignmentTake = () => {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
-  const [asg, setAsg] = useState<{ id: string; title: string | null; seconds_per_question: number; deadline: string | null } | null>(null);
+  const [asg, setAsg] = useState<{ id: string; title: string | null; seconds_per_question: number; deadline: string | null; created_by: string } | null>(null);
   const [questions, setQuestions] = useState<Q[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -36,7 +36,7 @@ const AssignmentTake = () => {
     if (!id || !user) return;
     document.title = `${uz.startTest} — ${uz.brand}`;
     (async () => {
-      const { data: a } = await supabase.from("test_assignments").select("id, title, seconds_per_question, deadline").eq("id", id).maybeSingle();
+      const { data: a } = await supabase.from("test_assignments").select("id, title, seconds_per_question, deadline, created_by").eq("id", id).maybeSingle();
       if (!a) { toast.error(uz.notFound); navigate("/my-assignments"); return; }
       // expired?
       if (a.deadline && new Date(a.deadline) < new Date()) {
@@ -128,6 +128,18 @@ const AssignmentTake = () => {
         score,
         total,
       }).eq("assignment_id", id).eq("student_id", user.id);
+      // Notify teacher that student finished
+      if (asg.created_by) {
+        const { data: prof } = await supabase.from("profiles").select("first_name, last_name").eq("id", user.id).maybeSingle();
+        const fullName = `${prof?.first_name ?? ""} ${prof?.last_name ?? ""}`.trim() || "Talaba";
+        await supabase.from("notifications").insert({
+          user_id: asg.created_by,
+          type: "student_finished",
+          title: "Talaba testni yakunladi",
+          message: `${fullName} — ${asg.title ?? ""}`,
+          link: `/assignments/${id}`,
+        });
+      }
       setFinalScore({ score, total });
       setFinished(true);
     } else {
@@ -145,16 +157,16 @@ const AssignmentTake = () => {
   if (finished) {
     return (
       <div className="max-w-2xl mx-auto animate-scale-in">
-        <Card className="p-10 text-center bg-gradient-card border-0 shadow-elegant relative overflow-hidden">
+        <Card className="p-6 sm:p-10 text-center bg-gradient-card border-0 shadow-elegant relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-glow" />
           <div className="relative">
-            <div className="h-24 w-24 rounded-full bg-gradient-ocean flex items-center justify-center mx-auto mb-6 shadow-glow animate-glow-pulse">
-              <Trophy className="h-12 w-12 text-primary-foreground" />
+            <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-ocean flex items-center justify-center mx-auto mb-6 shadow-glow animate-glow-pulse">
+              <Trophy className="h-10 w-10 sm:h-12 sm:w-12 text-primary-foreground" />
             </div>
-            <h1 className="font-display font-black text-4xl mb-2">{uz.testFinished}</h1>
-            <p className="text-lg text-muted-foreground my-6">{uz.waitingForResults}</p>
+            <h1 className="font-display font-black text-3xl sm:text-4xl mb-2">{uz.testFinished}</h1>
+            <p className="text-base sm:text-lg text-muted-foreground my-4">{uz.waitingForResults}</p>
             <p className="text-sm text-muted-foreground mb-8">
-              {finalScore.total} {uz.questions} — {uz.submittedAt}: {new Date().toLocaleString()}
+              {finalScore.total} {uz.questions} • {new Date().toLocaleString()}
             </p>
             <Button variant="hero" onClick={() => navigate("/my-assignments")}>{uz.back}</Button>
           </div>

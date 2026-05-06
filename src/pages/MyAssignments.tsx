@@ -87,8 +87,10 @@ const MyAssignments = () => {
                     <div className="text-muted-foreground">/savol</div>
                   </div>
                   <div className="bg-muted/50 rounded p-2 text-center">
-                    {isCompleted ? (
+                    {isCompleted && a.answers_published ? (
                       <><div className="font-bold text-base text-accent">{pct}%</div><div className="text-muted-foreground">Ball</div></>
+                    ) : isCompleted ? (
+                      <><div className="font-bold text-base text-muted-foreground">—</div><div className="text-muted-foreground">Kuting</div></>
                     ) : (
                       <><div className="font-bold text-base">{a.deadline ? new Date(a.deadline).toLocaleDateString() : "∞"}</div><div className="text-muted-foreground">Muddat</div></>
                     )}
