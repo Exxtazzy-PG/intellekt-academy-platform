@@ -95,16 +95,19 @@ const Index = () => {
       </Card>
 
       {role === "ustoz" ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-3 mb-8">
           {ustozCards.map((c, i) => (
             <Link to={c.to} key={c.label}>
-              <Card className="p-6 bg-gradient-card border-0 shadow-card hover:shadow-elegant transition-all hover:-translate-y-1 animate-scale-in" style={{ animationDelay: `${i * 50}ms` }}>
-                <div className="flex items-center justify-between mb-3">
-                  <c.icon className="h-7 w-7 text-accent" />
-                  <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              <Card className="group relative overflow-hidden p-5 sm:p-6 bg-gradient-card border-0 shadow-card hover-lift animate-scale-in" style={{ animationDelay: `${i * 50}ms` }}>
+                <div className="absolute -top-12 -right-12 h-24 w-24 rounded-full bg-accent/10 blur-2xl group-hover:bg-accent/20 transition-colors" />
+                <div className="relative flex items-center justify-between mb-3">
+                  <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                    <c.icon className="h-5 w-5 text-accent" />
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
                 </div>
-                <div className="font-display font-black text-3xl">{c.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{c.label}</div>
+                <div className="font-display font-black text-2xl sm:text-3xl text-gradient">{c.value}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{c.label}</div>
               </Card>
             </Link>
           ))}
