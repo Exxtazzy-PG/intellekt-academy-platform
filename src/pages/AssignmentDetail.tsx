@@ -144,30 +144,39 @@ const AssignmentDetail = () => {
         {students.map((s) => {
           const pct = s.total ? Math.round((s.score / s.total) * 100) : 0;
           const initials = `${s.profile?.first_name?.[0] ?? ""}${s.profile?.last_name?.[0] ?? ""}`.toUpperCase() || "?";
+          const answered = answeredCounts[s.student_id] ?? 0;
+          const total = s.total || asg.questions_per_student;
+          const livePct = total ? Math.round((answered / total) * 100) : 0;
           return (
-            <Card key={s.id} className="p-4 bg-card border hover:shadow-card transition-all">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-12 w-12 ring-2 ring-accent/20">
+            <Card key={s.id} className="p-3 sm:p-4 bg-card border hover:shadow-card transition-all">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap sm:flex-nowrap">
+                <Avatar className="h-11 w-11 sm:h-12 sm:w-12 ring-2 ring-accent/20">
                   <AvatarImage src={s.profile?.avatar_url ?? undefined} />
-                  <AvatarFallback className="bg-gradient-ocean text-primary-foreground">{initials}</AvatarFallback>
+                  <AvatarFallback className="bg-gradient-ocean text-primary-foreground text-sm">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold">{s.profile?.first_name} {s.profile?.last_name}</div>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                  <div className="font-semibold truncate">{s.profile?.first_name} {s.profile?.last_name}</div>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground flex-wrap">
                     {s.status === "completed" && <Badge className="bg-success/15 text-success border-success/30"><CheckCircle2 className="h-3 w-3" /> {uz.completed}</Badge>}
-                    {s.status === "in_progress" && <Badge variant="secondary"><Clock className="h-3 w-3" /> {uz.inProgress}</Badge>}
+                    {s.status === "in_progress" && <Badge variant="secondary" className="animate-pulse"><Clock className="h-3 w-3" /> {uz.inProgress}</Badge>}
                     {s.status === "pending" && <Badge variant="outline">{uz.pending}</Badge>}
                     {s.status === "expired" && <Badge variant="destructive">{uz.expired}</Badge>}
+                    <span className="text-[11px]">{answered}/{total} {uz.questions.toLowerCase()}</span>
                   </div>
+                  {s.status !== "pending" && s.status !== "completed" && (
+                    <div className="mt-2 h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-ocean transition-all" style={{ width: `${livePct}%` }} />
+                    </div>
+                  )}
                 </div>
                 {s.status === "completed" && (
-                  <div className="text-right">
-                    <div className="font-display font-black text-2xl text-accent">{pct}%</div>
+                  <div className="text-right shrink-0">
+                    <div className="font-display font-black text-xl sm:text-2xl text-accent">{pct}%</div>
                     <div className="text-xs text-muted-foreground">{s.score}/{s.total}</div>
                   </div>
                 )}
-                <Button variant="soft" size="sm" onClick={() => openDetail(s.student_id)} disabled={s.status === "pending"}>
-                  <Eye className="h-4 w-4" /> {uz.detailedAnswers}
+                <Button variant="soft" size="sm" onClick={() => openDetail(s.student_id)} disabled={s.status === "pending"} className="shrink-0">
+                  <Eye className="h-4 w-4" /> <span className="hidden sm:inline">{uz.detailedAnswers}</span>
                 </Button>
               </div>
             </Card>
