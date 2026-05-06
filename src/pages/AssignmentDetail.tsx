@@ -27,6 +27,7 @@ const AssignmentDetail = () => {
   const { role } = useAuth();
   const [asg, setAsg] = useState<Asg | null>(null);
   const [students, setStudents] = useState<SR[]>([]);
+  const [answeredCounts, setAnsweredCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState(false);
 
@@ -38,7 +39,6 @@ const AssignmentDetail = () => {
 
   const load = async () => {
     if (!id) return;
-    setLoading(true);
     const { data: a } = await supabase.from("test_assignments").select("*").eq("id", id).maybeSingle();
     setAsg(a as any);
     const { data: as } = await supabase.from("assignment_students").select("*").eq("assignment_id", id).order("created_at");
@@ -48,10 +48,29 @@ const AssignmentDetail = () => {
       : { data: [] as any[] };
     const pmap = new Map((profs ?? []).map((p: any) => [p.id, p]));
     setStudents((as ?? []).map((s: any) => ({ ...s, profile: pmap.get(s.student_id) })));
+    // answered counts
+    const { data: sa } = await supabase.from("student_answers").select("student_id").eq("assignment_id", id);
+    const counts: Record<string, number> = {};
+    (sa ?? []).forEach((r: any) => { counts[r.student_id] = (counts[r.student_id] ?? 0) + 1; });
+    setAnsweredCounts(counts);
     setLoading(false);
   };
 
-  useEffect(() => { load(); document.title = `${uz.assignmentsTitle} — ${uz.brand}`; }, [id]);
+  useEffect(() => {
+    load();
+    document.title = `${uz.assignmentsTitle} — ${uz.brand}`;
+    if (!id) return;
+    const ch = supabase
+      .channel(`asg-${id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "assignment_students", filter: `assignment_id=eq.${id}` }, () => load())
+      .on("postgres_changes", { event: "*", schema: "public", table: "student_answers", filter: `assignment_id=eq.${id}` }, () => {
+        load();
+        if (openSid) openDetail(openSid);
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const publish = async () => {
     if (!asg) return;
