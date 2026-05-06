@@ -21,7 +21,7 @@ const AssignmentTake = () => {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(true);
-  const [asg, setAsg] = useState<{ id: string; title: string | null; seconds_per_question: number; deadline: string | null } | null>(null);
+  const [asg, setAsg] = useState<{ id: string; title: string | null; seconds_per_question: number; deadline: string | null; created_by: string } | null>(null);
   const [questions, setQuestions] = useState<Q[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -36,7 +36,7 @@ const AssignmentTake = () => {
     if (!id || !user) return;
     document.title = `${uz.startTest} — ${uz.brand}`;
     (async () => {
-      const { data: a } = await supabase.from("test_assignments").select("id, title, seconds_per_question, deadline").eq("id", id).maybeSingle();
+      const { data: a } = await supabase.from("test_assignments").select("id, title, seconds_per_question, deadline, created_by").eq("id", id).maybeSingle();
       if (!a) { toast.error(uz.notFound); navigate("/my-assignments"); return; }
       // expired?
       if (a.deadline && new Date(a.deadline) < new Date()) {
