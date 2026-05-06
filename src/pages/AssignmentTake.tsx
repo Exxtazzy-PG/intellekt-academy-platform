@@ -157,16 +157,16 @@ const AssignmentTake = () => {
   if (finished) {
     return (
       <div className="max-w-2xl mx-auto animate-scale-in">
-        <Card className="p-10 text-center bg-gradient-card border-0 shadow-elegant relative overflow-hidden">
+        <Card className="p-6 sm:p-10 text-center bg-gradient-card border-0 shadow-elegant relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-glow" />
           <div className="relative">
-            <div className="h-24 w-24 rounded-full bg-gradient-ocean flex items-center justify-center mx-auto mb-6 shadow-glow animate-glow-pulse">
-              <Trophy className="h-12 w-12 text-primary-foreground" />
+            <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-ocean flex items-center justify-center mx-auto mb-6 shadow-glow animate-glow-pulse">
+              <Trophy className="h-10 w-10 sm:h-12 sm:w-12 text-primary-foreground" />
             </div>
-            <h1 className="font-display font-black text-4xl mb-2">{uz.testFinished}</h1>
-            <p className="text-lg text-muted-foreground my-6">{uz.waitingForResults}</p>
+            <h1 className="font-display font-black text-3xl sm:text-4xl mb-2">{uz.testFinished}</h1>
+            <p className="text-base sm:text-lg text-muted-foreground my-4">{uz.waitingForResults}</p>
             <p className="text-sm text-muted-foreground mb-8">
-              {finalScore.total} {uz.questions} — {uz.submittedAt}: {new Date().toLocaleString()}
+              {finalScore.total} {uz.questions} • {new Date().toLocaleString()}
             </p>
             <Button variant="hero" onClick={() => navigate("/my-assignments")}>{uz.back}</Button>
           </div>
