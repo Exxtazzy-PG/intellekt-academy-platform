@@ -56,7 +56,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <div className="min-h-screen flex w-full bg-background">
+    <div className="min-h-screen flex w-full bg-background bg-gradient-mesh">
       <Sidebar collapsible="icon" className="border-r">
         <SidebarHeader className="border-b p-2 group-data-[collapsible=icon]:p-1.5">
           <div className="flex items-center gap-3 px-1.5 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
@@ -120,7 +120,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
       </Sidebar>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 px-3 sm:px-4 h-14 border-b bg-card/80 backdrop-blur-md">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 px-3 sm:px-4 h-14 border-b border-border/60 glass">
           <div className="flex items-center gap-2 min-w-0">
             <SidebarTrigger className="h-9 w-9 shrink-0" />
             <div className="flex items-center gap-2 min-w-0 md:hidden">
