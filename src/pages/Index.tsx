@@ -60,16 +60,21 @@ const Index = () => {
 
   return (
     <div className="animate-fade-in-up">
-      <Card className="p-8 md:p-10 bg-gradient-hero text-primary-foreground mb-8 border-0 shadow-elegant relative overflow-hidden">
+      <Card className="p-6 sm:p-8 md:p-12 bg-gradient-hero text-primary-foreground mb-6 sm:mb-8 border-0 shadow-elegant relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-glow" />
-        <div className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-accent/30 blur-3xl animate-float" />
+        <div className="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-accent/30 blur-3xl animate-float" />
+        <div className="absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-primary-glow/30 blur-3xl animate-float" style={{ animationDelay: "1s" }} />
+        <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "24px 24px" }} />
         <div className="relative">
-          <p className="text-primary-foreground/70 text-sm uppercase tracking-wider mb-2">{role === "ustoz" ? uz.ustoz : uz.talaba}</p>
-          <h1 className="font-display font-black text-3xl md:text-5xl mb-3">
-            Assalomu alaykum, {profile?.first_name || "..."}!
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-foreground/10 border border-primary-foreground/20 text-[11px] uppercase tracking-widest mb-4 backdrop-blur-sm">
+            <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+            {role === "ustoz" ? uz.ustoz : uz.talaba}
+          </div>
+          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-6xl mb-3 leading-[1.05] tracking-tight">
+            Assalomu alaykum,<br className="hidden sm:block" /> <span className="text-gradient-aurora">{profile?.first_name || "..."}</span>!
           </h1>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl">{uz.tagline}.</p>
-          <div className="flex gap-3 mt-6 flex-wrap">
+          <p className="text-primary-foreground/80 text-base sm:text-lg max-w-2xl">{uz.tagline}.</p>
+          <div className="flex gap-2 sm:gap-3 mt-6 flex-wrap">
             {role === "ustoz" ? (
               <>
                 <Button asChild variant="glow" size="lg"><Link to="/tests"><FileQuestion className="h-5 w-5" />{uz.tests}<ArrowRight className="h-4 w-4" /></Link></Button>
