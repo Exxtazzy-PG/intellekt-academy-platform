@@ -123,7 +123,11 @@ const Index = () => {
                       <div className="font-semibold truncate">{p.assignment.title}</div>
                       <div className="flex gap-2 mt-1">
                         {isCompleted ? (
-                          <Badge className="bg-success/15 text-success border-success/30">{uz.completed} — {pct}%</Badge>
+                          p.assignment.answers_published ? (
+                            <Badge className="bg-success/15 text-success border-success/30">{uz.completed} — {pct}%</Badge>
+                          ) : (
+                            <Badge variant="outline">{uz.waitingForResults}</Badge>
+                          )
                         ) : (
                           <Badge variant="secondary">{p.status === "in_progress" ? uz.inProgress : uz.pending}</Badge>
                         )}
