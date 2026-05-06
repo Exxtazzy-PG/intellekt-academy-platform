@@ -41,18 +41,23 @@
     --input: 207 30% 88%;
     --ring: 197 56% 39%;
 
-    --radius: 0.85rem;
+    --radius: 1rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(213 56% 14%) 0%, hsl(207 60% 26%) 50%, hsl(197 56% 39%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(213 56% 14%) 0%, hsl(207 60% 26%) 45%, hsl(197 56% 39%) 100%);
     --gradient-ocean: linear-gradient(135deg, hsl(213 56% 14%), hsl(197 56% 39%));
+    --gradient-aurora: linear-gradient(135deg, hsl(178 50% 60%) 0%, hsl(197 70% 50%) 50%, hsl(220 70% 60%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(200 30% 97%));
-    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(178 36% 55% / 0.15), transparent 70%);
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(178 36% 55% / 0.18), transparent 70%);
+    --gradient-mesh: radial-gradient(at 20% 10%, hsl(178 50% 60% / 0.15) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(213 56% 30% / 0.12) 0px, transparent 50%),
+                     radial-gradient(at 0% 50%, hsl(197 56% 50% / 0.10) 0px, transparent 50%);
 
     /* Shadows */
-    --shadow-elegant: 0 10px 40px -15px hsl(213 56% 14% / 0.25);
-    --shadow-glow: 0 0 60px hsl(178 36% 55% / 0.35);
-    --shadow-card: 0 2px 12px -4px hsl(213 56% 14% / 0.08);
+    --shadow-elegant: 0 20px 50px -20px hsl(213 56% 14% / 0.30);
+    --shadow-glow: 0 0 60px hsl(178 36% 55% / 0.40);
+    --shadow-card: 0 4px 20px -6px hsl(213 56% 14% / 0.10);
+    --shadow-soft: 0 1px 2px hsl(213 56% 14% / 0.04), 0 8px 24px -8px hsl(213 56% 14% / 0.08);
 
     /* Animation */
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
