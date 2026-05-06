@@ -128,6 +128,18 @@ const AssignmentTake = () => {
         score,
         total,
       }).eq("assignment_id", id).eq("student_id", user.id);
+      // Notify teacher that student finished
+      if (asg.created_by) {
+        const { data: prof } = await supabase.from("profiles").select("first_name, last_name").eq("id", user.id).maybeSingle();
+        const fullName = `${prof?.first_name ?? ""} ${prof?.last_name ?? ""}`.trim() || "Talaba";
+        await supabase.from("notifications").insert({
+          user_id: asg.created_by,
+          type: "student_finished",
+          title: "Talaba testni yakunladi",
+          message: `${fullName} — ${asg.title ?? ""}`,
+          link: `/assignments/${id}`,
+        });
+      }
       setFinalScore({ score, total });
       setFinished(true);
     } else {
