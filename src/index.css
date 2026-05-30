@@ -90,7 +90,7 @@
     --popover-foreground: 200 30% 96%;
 
     --primary: 178 56% 60%;
-    --primary-foreground: 213 56% 10%;
+    --primary-foreground: 200 40% 96%;
     --primary-glow: 178 56% 60%;
 
     --secondary: 213 40% 16%;
@@ -111,7 +111,7 @@
     --ring: 178 56% 55%;
 
     --gradient-hero: linear-gradient(135deg, hsl(213 50% 8%) 0%, hsl(207 45% 18%) 50%, hsl(178 56% 38%) 100%);
-    --gradient-ocean: linear-gradient(135deg, hsl(213 50% 14%), hsl(178 56% 48%));
+    --gradient-ocean: linear-gradient(135deg, hsl(178 56% 55%), hsl(197 70% 55%));
     --gradient-aurora: linear-gradient(135deg, hsl(178 60% 55%) 0%, hsl(197 70% 50%) 50%, hsl(220 70% 55%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(213 45% 12%), hsl(213 45% 10%));
     --gradient-glow: radial-gradient(circle at 50% 0%, hsl(178 56% 55% / 0.22), transparent 70%);
