@@ -204,23 +204,23 @@ const AssignmentTake = () => {
         </div>
       </Card>
 
-      <Card className="p-8 bg-gradient-card border-0 shadow-elegant mb-6">
-        <h2 className="font-display font-semibold text-xl md:text-2xl mb-6 leading-snug">{q.question_text}</h2>
-        <div className="space-y-3">
+      <Card className="p-5 sm:p-7 md:p-8 bg-gradient-card border-0 shadow-elegant mb-6">
+        <h2 className="font-display font-semibold text-lg sm:text-xl md:text-2xl mb-5 sm:mb-6 leading-snug">{q.question_text}</h2>
+        <div className="space-y-2.5 sm:space-y-3">
           {(["a", "b", "c", "d"] as const).map((opt) => {
             const isSel = selected === opt;
             return (
               <button
                 key={opt}
                 onClick={() => setSelected(opt)}
-                className={`w-full text-left p-4 rounded-xl border-2 transition-all flex items-center gap-4 group ${
+                className={`w-full text-left p-3 sm:p-4 rounded-2xl border-2 transition-all duration-200 flex items-center gap-3 sm:gap-4 group active:scale-[0.99] ${
                   isSel ? "border-accent bg-accent/10 shadow-glow" : "border-border hover:border-accent/50 hover:bg-accent/5"
                 }`}
               >
-                <div className={`h-10 w-10 rounded-lg font-display font-bold uppercase flex items-center justify-center transition-colors ${
+                <div className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl font-display font-bold uppercase flex items-center justify-center transition-colors shrink-0 ${
                   isSel ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground group-hover:bg-accent/20"
                 }`}>{opt}</div>
-                <span className="flex-1 font-medium">{q[`option_${opt}` as keyof Q] as string}</span>
+                <span className="flex-1 font-medium text-sm sm:text-base">{q[`option_${opt}` as keyof Q] as string}</span>
               </button>
             );
           })}
