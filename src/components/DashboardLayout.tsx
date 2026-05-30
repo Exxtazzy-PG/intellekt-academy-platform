@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,12 @@ import {
   Trophy,
 } from "lucide-react";
 import NotificationsBell from "@/components/NotificationsBell";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 const InnerLayout = ({ children }: { children: ReactNode }) => {
   const { profile, role, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const initials = `${profile?.first_name?.[0] ?? ""}${profile?.last_name?.[0] ?? ""}`.toUpperCase() || "?";
 
@@ -57,10 +59,10 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="min-h-screen flex w-full bg-background bg-gradient-mesh">
-      <Sidebar collapsible="icon" className="border-r">
-        <SidebarHeader className="border-b p-2 group-data-[collapsible=icon]:p-1.5">
+      <Sidebar collapsible="icon" className="border-r border-sidebar-border/60">
+        <SidebarHeader className="border-b border-sidebar-border/60 p-2 group-data-[collapsible=icon]:p-1.5">
           <div className="flex items-center gap-3 px-1.5 py-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-            <div className="h-9 w-9 rounded-xl bg-gradient-ocean flex items-center justify-center shadow-glow shrink-0">
+            <div className="h-9 w-9 rounded-2xl bg-gradient-ocean flex items-center justify-center shadow-glow shrink-0">
               <GraduationCap className="h-5 w-5 text-primary-foreground" />
             </div>
             <div className="min-w-0 group-data-[collapsible=icon]:hidden">
@@ -73,10 +75,14 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-0.5">
                 {navItems.map(({ to, icon: Icon, label, end }) => (
                   <SidebarMenuItem key={to}>
-                    <SidebarMenuButton asChild tooltip={label}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={label}
+                      className="rounded-xl h-10 transition-all duration-200 hover:bg-sidebar-accent/60 data-[active=true]:bg-sidebar-accent data-[active=true]:shadow-soft"
+                    >
                       <NavLink
                         to={to}
                         end={end}
@@ -84,7 +90,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
                           `flex items-center gap-3 ${isActive ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold" : ""}`
                         }
                       >
-                        <Icon className="h-5 w-5 shrink-0" />
+                        <Icon className="h-[18px] w-[18px] shrink-0" />
                         <span className="truncate">{label}</span>
                       </NavLink>
                     </SidebarMenuButton>
@@ -95,7 +101,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter className="border-t p-2 group-data-[collapsible=icon]:p-1.5">
+        <SidebarFooter className="border-t border-sidebar-border/60 p-2 group-data-[collapsible=icon]:p-1.5">
           <div className="flex items-center gap-2 px-1 py-1 mb-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:mb-0">
             <Avatar className="h-8 w-8 ring-2 ring-accent/30 shrink-0">
               <AvatarImage src={profile?.avatar_url ?? undefined} />
@@ -110,7 +116,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
             onClick={handleLogout}
             variant="ghost"
             size="sm"
-            className="w-full justify-start gap-2 text-sidebar-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:mx-auto"
+            className="w-full justify-start gap-2 rounded-xl text-sidebar-foreground hover:bg-sidebar-accent/60 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:mx-auto"
             title={uz.logout}
           >
             <LogOut className="h-4 w-4 shrink-0" />
@@ -120,11 +126,11 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
       </Sidebar>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 px-3 sm:px-4 h-14 border-b border-border/60 glass">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 px-3 sm:px-5 h-14 border-b border-border/50 glass-strong">
           <div className="flex items-center gap-2 min-w-0">
-            <SidebarTrigger className="h-9 w-9 shrink-0" />
+            <SidebarTrigger className="h-9 w-9 shrink-0 rounded-xl hover:bg-accent/10 transition-colors" />
             <div className="flex items-center gap-2 min-w-0 md:hidden">
-              <div className="h-7 w-7 rounded-lg bg-gradient-ocean flex items-center justify-center shrink-0">
+              <div className="h-7 w-7 rounded-xl bg-gradient-ocean flex items-center justify-center shrink-0">
                 <GraduationCap className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="font-display font-bold text-sm truncate">{uz.brand}</span>
@@ -134,8 +140,15 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
             <NotificationsBell />
           </div>
         </header>
-        <main className="flex-1 p-3 sm:p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">{children}</main>
+        <main
+          key={location.pathname}
+          className="flex-1 p-3 sm:p-5 md:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 md:pb-8 page-enter"
+        >
+          {children}
+        </main>
       </div>
+
+      <MobileBottomNav />
     </div>
   );
 };
