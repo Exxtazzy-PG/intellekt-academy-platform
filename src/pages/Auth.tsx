@@ -75,7 +75,7 @@ const Auth = () => {
               <div className="space-y-1.5">
                 <Label htmlFor="fn">{uz.firstName}</Label>
                 <div className="relative">
-                  <User className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
+                  <User className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
                   <Input
                     id="fn"
                     className="pl-10"
@@ -100,7 +100,7 @@ const Auth = () => {
           <div className="space-y-1.5">
             <Label htmlFor="email">{uz.email}</Label>
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
+              <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
               <Input
                 id="email"
                 type="email"
@@ -116,7 +116,7 @@ const Auth = () => {
           <div className="space-y-1.5">
             <Label htmlFor="pwd">{uz.password}</Label>
             <div className="relative">
-              <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
+              <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
               <Input
                 id="pwd"
                 type="password"
