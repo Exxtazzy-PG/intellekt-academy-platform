@@ -8,61 +8,61 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 213 56% 14%;
+    --background: 210 45% 98%;
+    --foreground: 215 60% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 213 56% 14%;
+    --card-foreground: 215 60% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 213 56% 14%;
+    --popover-foreground: 215 60% 12%;
 
-    /* Ocean Deep palette */
-    --primary: 213 56% 14%;
-    --primary-foreground: 200 50% 96%;
-    --primary-glow: 197 56% 39%;
+    /* Ocean Deep — vibrant edition */
+    --primary: 217 70% 18%;
+    --primary-foreground: 200 60% 98%;
+    --primary-glow: 195 85% 50%;
 
-    --secondary: 207 45% 94%;
-    --secondary-foreground: 213 56% 14%;
+    --secondary: 205 60% 95%;
+    --secondary-foreground: 217 70% 18%;
 
-    --accent: 178 56% 48%;
+    --accent: 178 75% 42%;
     --accent-foreground: 0 0% 100%;
-    --accent-soft: 178 56% 95%;
+    --accent-soft: 178 70% 94%;
 
-    --muted: 210 30% 95%;
-    --muted-foreground: 207 18% 46%;
+    --muted: 210 35% 95%;
+    --muted-foreground: 215 22% 42%;
 
-    --destructive: 0 75% 55%;
+    --destructive: 358 82% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 160 60% 40%;
-    --warning: 38 92% 50%;
+    --success: 158 72% 40%;
+    --warning: 38 95% 52%;
 
-    --border: 210 25% 90%;
-    --input: 210 25% 90%;
-    --ring: 178 56% 48%;
+    --border: 210 30% 89%;
+    --input: 210 30% 89%;
+    --ring: 178 75% 45%;
 
     /* iOS-like, generous radius scale */
     --radius: 1.25rem;
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(213 56% 14%) 0%, hsl(207 60% 26%) 45%, hsl(178 56% 42%) 100%);
-    --gradient-ocean: linear-gradient(135deg, hsl(213 56% 18%), hsl(178 56% 48%));
-    --gradient-aurora: linear-gradient(135deg, hsl(178 70% 65%) 0%, hsl(197 70% 55%) 50%, hsl(220 70% 65%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 30% 98%));
-    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(178 56% 55% / 0.18), transparent 70%);
+    /* Gradients — punchier */
+    --gradient-hero: linear-gradient(135deg, hsl(217 70% 14%) 0%, hsl(200 75% 28%) 45%, hsl(178 75% 45%) 100%);
+    --gradient-ocean: linear-gradient(135deg, hsl(217 70% 22%) 0%, hsl(195 85% 45%) 55%, hsl(178 80% 50%) 100%);
+    --gradient-aurora: linear-gradient(135deg, hsl(178 85% 60%) 0%, hsl(195 90% 58%) 50%, hsl(230 85% 68%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(178 80% 55% / 0.28), transparent 70%);
     --gradient-mesh:
-      radial-gradient(at 18% 8%, hsl(178 70% 65% / 0.18) 0px, transparent 50%),
-      radial-gradient(at 82% 4%, hsl(213 56% 35% / 0.12) 0px, transparent 50%),
-      radial-gradient(at 0% 60%, hsl(197 56% 55% / 0.10) 0px, transparent 50%),
-      radial-gradient(at 95% 90%, hsl(178 70% 60% / 0.08) 0px, transparent 50%);
+      radial-gradient(at 18% 8%, hsl(178 85% 60% / 0.22) 0px, transparent 50%),
+      radial-gradient(at 82% 4%, hsl(217 75% 45% / 0.18) 0px, transparent 50%),
+      radial-gradient(at 0% 60%, hsl(195 85% 55% / 0.14) 0px, transparent 50%),
+      radial-gradient(at 95% 90%, hsl(178 80% 55% / 0.12) 0px, transparent 50%);
 
     /* Shadows — soft, layered, iOS-style */
-    --shadow-elegant: 0 24px 60px -24px hsl(213 56% 14% / 0.28), 0 2px 6px -2px hsl(213 56% 14% / 0.06);
-    --shadow-glow: 0 0 0 1px hsl(178 56% 55% / 0.25), 0 12px 40px -8px hsl(178 56% 48% / 0.45);
-    --shadow-card: 0 1px 3px hsl(213 56% 14% / 0.04), 0 8px 24px -10px hsl(213 56% 14% / 0.10);
-    --shadow-soft: 0 1px 2px hsl(213 56% 14% / 0.04), 0 4px 16px -6px hsl(213 56% 14% / 0.08);
-    --shadow-pop: 0 12px 32px -12px hsl(213 56% 14% / 0.20);
+    --shadow-elegant: 0 24px 60px -24px hsl(217 70% 14% / 0.30), 0 2px 6px -2px hsl(217 70% 14% / 0.08);
+    --shadow-glow: 0 0 0 1px hsl(178 80% 55% / 0.30), 0 16px 48px -10px hsl(178 80% 50% / 0.55);
+    --shadow-card: 0 1px 3px hsl(217 70% 14% / 0.05), 0 8px 24px -10px hsl(217 70% 14% / 0.12);
+    --shadow-soft: 0 1px 2px hsl(217 70% 14% / 0.05), 0 4px 16px -6px hsl(217 70% 14% / 0.10);
+    --shadow-pop: 0 12px 32px -12px hsl(217 70% 14% / 0.22);
 
     /* Animation curves */
     --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
