@@ -130,7 +130,7 @@ const Auth = () => {
             </div>
           </div>
 
-          <Button type="submit" variant="hero" size="lg" className="w-full mt-2 text-white" disabled={loading}>
+          <Button type="submit" variant="hero" size="lg" className="w-full mt-2" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
             {loading
               ? mode === "login"
