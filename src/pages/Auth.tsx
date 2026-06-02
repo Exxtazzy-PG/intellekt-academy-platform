@@ -49,18 +49,24 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-glow" />
-      <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-accent/20 blur-3xl animate-float" />
-      <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary-glow/20 blur-3xl animate-float" style={{ animationDelay: "1s" }} />
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
+      {/* Theme-aware ambient background */}
+      <div className="absolute inset-0 bg-gradient-mesh opacity-80" />
+      <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-accent/25 blur-3xl animate-float" />
+      <div
+        className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary-glow/25 blur-3xl animate-float"
+        style={{ animationDelay: "1s" }}
+      />
 
-      <Card className="relative w-full max-w-md p-8 md:p-10 shadow-elegant border-0 glass animate-scale-in">
-        <div className="flex flex-col items-center mb-8">
+      <Card className="relative w-full max-w-md p-7 sm:p-9 shadow-elegant border border-border/60 glass-strong animate-scale-in">
+        <div className="flex flex-col items-center mb-7">
           <div className="h-16 w-16 rounded-2xl bg-gradient-ocean flex items-center justify-center shadow-glow mb-4">
-            <GraduationCap className="h-8 w-8 text-primary-foreground" />
+            <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h1 className="font-display font-bold text-3xl text-foreground">{uz.brand}</h1>
-          <p className="text-muted-foreground text-sm mt-1">{mode === "login" ? uz.loginSubtitle : uz.registerSubtitle}</p>
+          <p className="text-muted-foreground text-sm mt-1 text-center">
+            {mode === "login" ? uz.loginSubtitle : uz.registerSubtitle}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,13 +75,24 @@ const Auth = () => {
               <div className="space-y-1.5">
                 <Label htmlFor="fn">{uz.firstName}</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input id="fn" className="pl-9" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
+                  <User className="pointer-events-none absolute z-10 left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
+                  <Input
+                    id="fn"
+                    className="pl-10"
+                    value={form.firstName}
+                    onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                    maxLength={50}
+                  />
                 </div>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="ln">{uz.lastName}</Label>
-                <Input id="ln" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
+                <Input
+                  id="ln"
+                  value={form.lastName}
+                  onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                  maxLength={50}
+                />
               </div>
             </div>
           )}
@@ -83,22 +100,45 @@ const Auth = () => {
           <div className="space-y-1.5">
             <Label htmlFor="email">{uz.email}</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input id="email" type="email" className="pl-9" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+              <Mail className="pointer-events-none absolute z-10 left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
+              <Input
+                id="email"
+                type="email"
+                className="pl-10"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                maxLength={255}
+                required
+              />
             </div>
           </div>
 
           <div className="space-y-1.5">
             <Label htmlFor="pwd">{uz.password}</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input id="pwd" type="password" className="pl-9" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} minLength={6} maxLength={72} required />
+              <Lock className="pointer-events-none absolute z-10 left-3.5 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-accent" />
+              <Input
+                id="pwd"
+                type="password"
+                className="pl-10"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                minLength={6}
+                maxLength={72}
+                required
+              />
             </div>
           </div>
 
           <Button type="submit" variant="hero" size="lg" className="w-full mt-2" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {loading ? (mode === "login" ? uz.loggingIn : uz.registering) : mode === "login" ? uz.loginCta : uz.registerCta}
+            {loading
+              ? mode === "login"
+                ? uz.loggingIn
+                : uz.registering
+              : mode === "login"
+                ? uz.loginCta
+                : uz.registerCta}
           </Button>
         </form>
 
