@@ -7,14 +7,20 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, BookOpen, FileQuestion, TrendingUp, ArrowRight, ClipboardList, Inbox, Library, Trophy } from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
 const Index = () => {
   const { profile, role, user } = useAuth();
   const [stats, setStats] = useState({ students: 0, subjects: 0, topics: 0, tests: 0, assignments: 0, completed: 0 });
   const [pending, setPending] = useState<any[]>([]);
 
+  useSeo({
+    title: `Bosh sahifa — ${uz.brand}`,
+    description: `${uz.brand} boshqaruv paneli: fanlar, mavzular, testlar va talabalar natijalari bir ko'rinishda.`,
+    path: "/",
+  });
+
   useEffect(() => {
-    document.title = `${uz.dashboard} — ${uz.brand}`;
     if (!user) return;
     (async () => {
       if (role === "ustoz") {
