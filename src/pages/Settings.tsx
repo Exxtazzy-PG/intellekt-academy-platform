@@ -7,7 +7,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
+import { clearAvatarCache } from "@/lib/avatar";
 import { Settings as SettingsIcon, Sun, Moon, Camera, Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 
@@ -50,9 +51,8 @@ const Settings = () => {
     const path = `${user.id}/avatar.${ext}`;
     const { error: upErr } = await supabase.storage.from("avatars").upload(path, file, { upsert: true, contentType: file.type });
     if (upErr) { setUploading(false); return toast.error(upErr.message); }
-    const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
-    const url = `${publicUrl}?v=${Date.now()}`;
-    const { error } = await supabase.from("profiles").update({ avatar_url: url }).eq("id", user.id);
+    clearAvatarCache();
+    const { error } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", user.id);
     setUploading(false);
     if (error) return toast.error(error.message);
     toast.success(uz.profileUpdated);
@@ -73,10 +73,12 @@ const Settings = () => {
         <h2 className="font-display font-bold text-xl mb-6">{uz.personalInfo}</h2>
         <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
           <div className="relative">
-            <Avatar className="h-24 w-24 ring-4 ring-accent/20">
-              <AvatarImage src={profile?.avatar_url ?? undefined} />
-              <AvatarFallback className="bg-gradient-ocean text-primary-foreground text-2xl font-bold">{initials}</AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              src={profile?.avatar_url}
+              fallback={initials}
+              className="h-24 w-24 ring-4 ring-accent/20"
+              fallbackClassName="text-2xl"
+            />
             {uploading && (
               <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center">
                 <Loader2 className="h-6 w-6 animate-spin text-white" />

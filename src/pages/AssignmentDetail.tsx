@@ -6,7 +6,7 @@ import { uz } from "@/i18n/uz";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -150,10 +150,12 @@ const AssignmentDetail = () => {
           return (
             <Card key={s.id} className="p-3 sm:p-4 bg-card border hover:shadow-card transition-all">
               <div className="flex items-center gap-3 sm:gap-4 flex-wrap sm:flex-nowrap">
-                <Avatar className="h-11 w-11 sm:h-12 sm:w-12 ring-2 ring-accent/20">
-                  <AvatarImage src={s.profile?.avatar_url ?? undefined} />
-                  <AvatarFallback className="bg-gradient-ocean text-primary-foreground text-sm">{initials}</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  src={s.profile?.avatar_url}
+                  fallback={initials}
+                  className="h-11 w-11 sm:h-12 sm:w-12 ring-2 ring-accent/20"
+                  fallbackClassName="text-sm"
+                />
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold truncate">{s.profile?.first_name} {s.profile?.last_name}</div>
                   <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground flex-wrap">

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Medal, Award, Loader2 } from "lucide-react";
 
@@ -103,10 +103,12 @@ const Leaderboard = () => {
                 style={{ animationDelay: `${i * 25}ms` }}
               >
                 <div className="w-8 flex items-center justify-center shrink-0">{medal(i)}</div>
-                <Avatar className="h-10 w-10 shrink-0">
-                  <AvatarImage src={r.avatar_url ?? undefined} />
-                  <AvatarFallback className="bg-muted text-xs font-semibold">{initials}</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  src={r.avatar_url}
+                  fallback={initials}
+                  className="h-10 w-10 shrink-0"
+                  fallbackClassName="bg-muted text-xs font-semibold"
+                />
                 <div className="min-w-0 flex-1">
                   <div className="font-semibold text-sm sm:text-base truncate">
                     {r.first_name} {r.last_name} {isMe && <span className="text-accent text-xs">(siz)</span>}

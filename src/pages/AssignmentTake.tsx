@@ -12,7 +12,6 @@ import { toast } from "sonner";
 interface Q {
   id: string; question_text: string;
   option_a: string; option_b: string; option_c: string; option_d: string;
-  correct_option: string;
 }
 
 const AssignmentTake = () => {
@@ -55,7 +54,7 @@ const AssignmentTake = () => {
       // load assigned questions
       const { data: aqs } = await supabase.from("assignment_questions").select("question_id, position").eq("assignment_id", id).eq("student_id", user.id).order("position");
       const qids = (aqs ?? []).map((q) => q.question_id);
-      const { data: qs } = qids.length ? await supabase.from("questions").select("*").in("id", qids) : { data: [] as any[] };
+      const { data: qs } = qids.length ? await supabase.from("questions_safe").select("*").in("id", qids) : { data: [] as any[] };
       const qmap = new Map((qs ?? []).map((q: any) => [q.id, q]));
       const ordered = (aqs ?? []).map((aq) => qmap.get(aq.question_id)).filter(Boolean) as Q[];
       // restore previously saved answers count
@@ -105,13 +104,12 @@ const AssignmentTake = () => {
     const q = questions[current];
     if (!q) { submittingRef.current = false; return; }
     const timeTaken = Math.min(asg.seconds_per_question, Math.round((Date.now() - startedRef.current) / 1000));
-    const isCorrect = !timedOut && selected === q.correct_option;
+    // is_correct is computed server-side by a database trigger
     await supabase.from("student_answers").insert({
       assignment_id: id,
       student_id: user.id,
       question_id: q.id,
       selected_option: timedOut ? null : selected,
-      is_correct: isCorrect,
       timed_out: timedOut,
       time_taken_seconds: timedOut ? asg.seconds_per_question : timeTaken,
     });

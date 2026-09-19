@@ -54,6 +54,13 @@ export type Database = {
             referencedRelation: "questions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "assignment_questions_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions_safe"
+            referencedColumns: ["id"]
+          },
         ]
       }
       assignment_students: {
@@ -297,6 +304,13 @@ export type Database = {
             referencedRelation: "questions"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "student_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions_safe"
+            referencedColumns: ["id"]
+          },
         ]
       }
       subjects: {
@@ -470,15 +484,72 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      questions_safe: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          option_a: string | null
+          option_b: string | null
+          option_c: string | null
+          option_d: string | null
+          position: number | null
+          question_text: string | null
+          test_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          option_a?: string | null
+          option_b?: string | null
+          option_c?: string | null
+          option_d?: string | null
+          position?: number | null
+          question_text?: string | null
+          test_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          option_a?: string | null
+          option_b?: string | null
+          option_c?: string | null
+          option_d?: string | null
+          position?: number | null
+          question_text?: string | null
+          test_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      get_assignment_answer_key: {
+        Args: { _assignment_id: string }
+        Returns: {
+          correct_option: string
+          question_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      submit_test_attempt: {
+        Args: { _answers: Json; _test_id: string }
+        Returns: {
+          score: number
+          total: number
+        }[]
       }
     }
     Enums: {

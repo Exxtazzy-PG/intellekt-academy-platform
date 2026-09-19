@@ -50,7 +50,7 @@ const Tests = () => {
     const topicMap = new Map((topics ?? []).map((t) => [t.id, t.title]));
     const testIds = (tests ?? []).map((t) => t.id);
     const { data: qs } = testIds.length
-      ? await supabase.from("questions").select("test_id").in("test_id", testIds)
+      ? await supabase.from("questions_safe").select("test_id").in("test_id", testIds)
       : { data: [] as { test_id: string }[] };
     const counts: Record<string, number> = {};
     (qs ?? []).forEach((q) => { counts[q.test_id] = (counts[q.test_id] ?? 0) + 1; });
