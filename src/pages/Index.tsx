@@ -78,6 +78,7 @@ const Index = () => {
           </div>
           <h1 className="font-display font-black text-3xl sm:text-4xl md:text-6xl mb-3 leading-[1.05] tracking-tight">
             Assalomu alaykum,<br className="hidden sm:block" /> <span className="text-gradient-aurora">{profile?.first_name || "..."}</span>!
+            <span className="sr-only"> — Bosh sahifa, {uz.brand}</span>
           </h1>
           <p className="text-primary-foreground/80 text-base sm:text-lg max-w-2xl">{uz.tagline}.</p>
           <div className="flex gap-2 sm:gap-3 mt-6 flex-wrap">
