@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Users, Search, Loader2, TrendingUp } from "lucide-react";
@@ -110,12 +110,11 @@ const Students = () => {
                 style={{ animationDelay: `${i * 40}ms` }}
               >
                 <div className="flex items-center gap-4">
-                  <Avatar className="h-14 w-14 ring-2 ring-accent/20">
-                    <AvatarImage src={s.avatar_url ?? undefined} />
-                    <AvatarFallback className="bg-gradient-ocean text-primary-foreground font-semibold">
-                      {initials}
-                    </AvatarFallback>
-                  </Avatar>
+                  <UserAvatar
+                    src={s.avatar_url}
+                    fallback={initials}
+                    className="h-14 w-14 ring-2 ring-accent/20"
+                  />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-display font-semibold truncate">
                       {s.first_name} {s.last_name}

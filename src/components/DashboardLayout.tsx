@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
 import {
   Sidebar,
   SidebarContent,
@@ -103,10 +103,12 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
 
         <SidebarFooter className="border-t border-sidebar-border/60 p-2 group-data-[collapsible=icon]:p-1.5">
           <div className="flex items-center gap-2 px-1 py-1 mb-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:mb-0">
-            <Avatar className="h-8 w-8 ring-2 ring-accent/30 shrink-0">
-              <AvatarImage src={profile?.avatar_url ?? undefined} />
-              <AvatarFallback className="bg-sidebar-accent text-xs font-semibold">{initials}</AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              src={profile?.avatar_url}
+              fallback={initials}
+              className="h-8 w-8 ring-2 ring-accent/30 shrink-0"
+              fallbackClassName="bg-sidebar-accent text-xs font-semibold"
+            />
             <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
               <div className="font-semibold text-xs truncate">{profile?.first_name} {profile?.last_name}</div>
               <div className="text-[11px] text-sidebar-foreground/60 truncate">{role === "ustoz" ? uz.ustoz : uz.talaba}</div>
