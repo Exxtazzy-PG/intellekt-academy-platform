@@ -32,11 +32,16 @@ const AssignmentReview = () => {
       if (as) setScore({ score: as.score, total: as.total });
       const { data: aqs } = await supabase.from("assignment_questions").select("question_id, position").eq("assignment_id", id).eq("student_id", user.id).order("position");
       const qids = (aqs ?? []).map((q) => q.question_id);
-      const { data: qs } = qids.length ? await supabase.from("questions").select("*").in("id", qids) : { data: [] as any[] };
+      const { data: qs } = qids.length ? await supabase.from("questions_safe").select("*").in("id", qids) : { data: [] as any[] };
       const qmap = new Map((qs ?? []).map((q: any) => [q.id, q]));
       setQuestions((aqs ?? []).map((aq) => qmap.get(aq.question_id)).filter(Boolean) as Q[]);
       const { data: sa } = await supabase.from("student_answers").select("*").eq("assignment_id", id).eq("student_id", user.id);
       setAnswers(sa ?? []);
+      // Correct answers are released by the server only after the teacher publishes them
+      if ((a as any)?.answers_published) {
+        const { data: key } = await supabase.rpc("get_assignment_answer_key", { _assignment_id: id });
+        setKeyMap(new Map((key ?? []).map((k: any) => [k.question_id, k.correct_option])));
+      }
       setLoading(false);
     })();
   }, [id, user?.id]);
@@ -82,7 +87,7 @@ const AssignmentReview = () => {
               </div>
               <div className="grid sm:grid-cols-2 gap-2 text-sm">
                 {(["a", "b", "c", "d"] as const).map((opt) => {
-                  const isCorrect = opt === q.correct_option;
+                  const isCorrect = opt === keyMap.get(q.id);
                   const isSelected = a?.selected_option === opt;
                   return (
                     <div key={opt} className={`p-2.5 rounded border ${
