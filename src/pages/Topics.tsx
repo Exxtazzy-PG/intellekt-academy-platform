@@ -164,10 +164,10 @@ const Topics = () => {
                   <BookOpen className="h-8 w-8 text-accent" />
                   {role === "ustoz" && (
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); openEdit(t); }}>
+                      <Button aria-label={`${t.title} mavzusini tahrirlash`} variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); openEdit(t); }}>
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); remove(t.id); }}>
+                      <Button aria-label={`${t.title} mavzusini o'chirish`} variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); remove(t.id); }}>
                         <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
@@ -176,7 +176,7 @@ const Topics = () => {
                 {t.subject_id && subjectMap[t.subject_id] && (
                   <Badge variant="secondary" className="mb-2 text-xs">{subjectMap[t.subject_id]}</Badge>
                 )}
-                <h3 className="font-display font-bold text-lg mb-1 line-clamp-1">{t.title}</h3>
+                <h2 className="font-display font-bold text-lg mb-1 line-clamp-1">{t.title}</h2>
                 {t.description && <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{t.description}</p>}
                 <div className="flex items-center justify-between pt-3 border-t border-border">
                   <span className="text-xs text-muted-foreground">{counts[t.id] ?? 0} {uz.testsInTopic}</span>
