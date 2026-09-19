@@ -116,9 +116,9 @@ const Students = () => {
                     className="h-14 w-14 ring-2 ring-accent/20"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-semibold truncate">
+                    <h2 className="font-display font-semibold truncate">
                       {s.first_name} {s.last_name}
-                    </h3>
+                    </h2>
                     <Badge variant="secondary" className="mt-1 text-xs">
                       {uz.talaba}
                     </Badge>
