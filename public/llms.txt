@@ -1,0 +1,11 @@
+# Intellekt Academy
+
+> Intellekt Academy — ustozlar va talabalar uchun zamonaviy testlar va bilim platformasi.
+
+Platformada ustoz fanlar va mavzular yaratadi, mavzu materiallari asosida testlar tuzadi
+va ularni talabalarga tarqatadi. Talabalar testlarni yechadi, natijalar esa ustoz
+tomonidan e'lon qilingandan keyin ko'rinadi.
+
+## Pages
+
+- [Bosh sahifa](/): Platforma haqida umumiy ma'lumot va kirish.

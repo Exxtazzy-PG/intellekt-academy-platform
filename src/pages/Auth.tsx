@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { uz } from "@/i18n/uz";
 import { GraduationCap, Mail, Lock, User, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useSeo } from "@/lib/seo";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -20,14 +21,19 @@ const Auth = () => {
     if (user) navigate("/", { replace: true });
   }, [user, navigate]);
 
-  // SEO
-  useEffect(() => {
-    document.title = mode === "login" ? `${uz.loginTitle} — ${uz.brand}` : `${uz.registerTitle} — ${uz.brand}`;
-    const meta = document.querySelector('meta[name="description"]') ?? document.createElement("meta");
-    meta.setAttribute("name", "description");
-    meta.setAttribute("content", `${uz.brand} — ${uz.tagline}. ${uz.loginSubtitle}`);
-    if (!meta.parentNode) document.head.appendChild(meta);
-  }, [mode]);
+  useSeo(
+    mode === "login"
+      ? {
+          title: `Tizimga kirish — ${uz.brand}`,
+          description: `${uz.brand} hisobingizga kiring: testlar, mavzular va natijalaringiz bir joyda.`,
+          path: "/auth",
+        }
+      : {
+          title: `Ro'yxatdan o'tish — ${uz.brand}`,
+          description: `${uz.brand} platformasida talaba profilini yarating va ustoz tarqatgan testlarni yeching.`,
+          path: "/auth",
+        },
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +69,13 @@ const Auth = () => {
           <div className="h-16 w-16 rounded-2xl bg-gradient-ocean flex items-center justify-center shadow-glow mb-4">
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
-          <h1 className="font-display font-bold text-3xl text-foreground">{uz.brand}</h1>
+          <h1 className="font-display font-bold text-3xl text-foreground">
+            {uz.brand}
+            <span className="sr-only">
+              {" "}
+              — {mode === "login" ? "Tizimga kirish" : "Ro'yxatdan o'tish"}
+            </span>
+          </h1>
           <p className="text-muted-foreground text-sm mt-1 text-center">
             {mode === "login" ? uz.loginSubtitle : uz.registerSubtitle}
           </p>

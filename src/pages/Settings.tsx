@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,8 @@ const Settings = () => {
   const [lastName, setLastName] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  useSeo({ title: "Sozlamalar — " + uz.brand, description: "Shaxsiy ma'lumotlar, profil rasmi va yorug'/qorong'i mavzu sozlamalari.", path: "/settings" });
+
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { document.title = `${uz.settingsTitle} — ${uz.brand}`; }, []);

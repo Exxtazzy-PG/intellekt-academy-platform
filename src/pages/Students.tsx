@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +25,6 @@ const Students = () => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    document.title = `${uz.studentsTitle} — ${uz.brand}`;
   }, []);
 
   useEffect(() => {
@@ -60,6 +60,8 @@ const Students = () => {
     };
     load();
   }, []);
+
+  useSeo({ title: "Talabalar — " + uz.brand, description: "Platformaga ro'yxatdan o'tgan talabalar ro'yxati va ularning profillari.", path: "/students" });
 
   const filtered = students.filter((s) =>
     `${s.first_name ?? ""} ${s.last_name ?? ""}`.toLowerCase().includes(query.toLowerCase())
@@ -116,9 +118,9 @@ const Students = () => {
                     className="h-14 w-14 ring-2 ring-accent/20"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-semibold truncate">
+                    <h2 className="font-display font-semibold truncate">
                       {s.first_name} {s.last_name}
-                    </h3>
+                    </h2>
                     <Badge variant="secondary" className="mt-1 text-xs">
                       {uz.talaba}
                     </Badge>

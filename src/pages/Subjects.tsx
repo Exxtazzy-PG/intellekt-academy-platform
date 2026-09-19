@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,8 @@ const COLORS = [
 ];
 
 const Subjects = () => {
+  useSeo({ title: "Fanlar — " + uz.brand, description: "Platformadagi barcha fanlar: har bir fan uchun mavzular va testlar to'plami.", path: "/subjects" });
+
   const navigate = useNavigate();
   const { role, user } = useAuth();
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -131,17 +134,17 @@ const Subjects = () => {
                 <Library className="absolute bottom-3 right-3 h-16 w-16 text-white/20" />
                 {role === "ustoz" && (
                   <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/30 hover:bg-black/50 text-white" onClick={(e) => { e.stopPropagation(); openEdit(s); }}>
+                    <Button aria-label={`${s.title} fanini tahrirlash`} variant="ghost" size="icon" className="h-8 w-8 bg-black/30 hover:bg-black/50 text-white" onClick={(e) => { e.stopPropagation(); openEdit(s); }}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/30 hover:bg-black/50 text-white" onClick={(e) => { e.stopPropagation(); remove(s.id); }}>
+                    <Button aria-label={`${s.title} fanini o'chirish`} variant="ghost" size="icon" className="h-8 w-8 bg-black/30 hover:bg-black/50 text-white" onClick={(e) => { e.stopPropagation(); remove(s.id); }}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 )}
               </div>
               <div className="p-5 bg-card">
-                <h3 className="font-display font-bold text-lg mb-1 line-clamp-1">{s.title}</h3>
+                <h2 className="font-display font-bold text-lg mb-1 line-clamp-1">{s.title}</h2>
                 {s.description && <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{s.description}</p>}
                 <div className="flex items-center justify-between pt-3 border-t border-border">
                   <span className="text-xs text-muted-foreground">{counts[s.id] ?? 0} {uz.topicsInSubject}</span>

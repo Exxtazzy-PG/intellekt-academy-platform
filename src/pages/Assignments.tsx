@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,8 @@ const Assignments = () => {
   const [rows, setRows] = useState<AsgRow[]>([]);
   const [loading, setLoading] = useState(true);
 
+  useSeo({ title: "Tarqatilgan testlar — " + uz.brand, description: "Ustoz tarqatgan testlar, talabalar progressi va natijalarni e'lon qilish.", path: "/assignments" });
+
   const load = async () => {
     setLoading(true);
     const { data: asg } = await supabase.from("test_assignments").select("*").order("created_at", { ascending: false });
@@ -51,7 +54,6 @@ const Assignments = () => {
   };
 
   useEffect(() => {
-    document.title = `${uz.assignmentsTitle} — ${uz.brand}`;
     load();
   }, []);
 

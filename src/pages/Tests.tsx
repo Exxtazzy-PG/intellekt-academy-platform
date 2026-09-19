@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,8 @@ const Tests = () => {
   const [deadlineHours, setDeadlineHours] = useState(24);
   const [distSaving, setDistSaving] = useState(false);
 
+  useSeo({ title: "Testlar — " + uz.brand, description: "Mavzular asosida tuzilgan testlar ro'yxati, savollar soni va tarqatish imkoniyati.", path: "/tests" });
+
   const load = async () => {
     setLoading(true);
     const { data: tests } = await supabase.from("tests").select("id, title, description, topic_id").order("created_at", { ascending: false });
@@ -59,7 +62,6 @@ const Tests = () => {
   };
 
   useEffect(() => {
-    document.title = `${uz.testsTitle} — ${uz.brand}`;
     load();
   }, []);
 
@@ -184,7 +186,7 @@ const Tests = () => {
           {rows.map((t, i) => (
             <Card key={t.id} className="p-6 bg-gradient-card border-0 shadow-card hover:shadow-elegant transition-all hover:-translate-y-1 animate-scale-in" style={{ animationDelay: `${i * 40}ms` }}>
               <Badge variant="secondary" className="mb-3">{t.topic_title}</Badge>
-              <h3 className="font-display font-bold text-lg mb-1">{t.title}</h3>
+              <h2 className="font-display font-bold text-lg mb-1">{t.title}</h2>
               {t.description && <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{t.description}</p>}
               <div className="text-sm text-muted-foreground mb-4">{t.question_count} {uz.questions}</div>
 
@@ -195,7 +197,7 @@ const Tests = () => {
                   </Button>
                   <div className="flex gap-2">
                     <Button asChild variant="soft" className="flex-1"><Link to={`/tests/${t.id}/edit`}><Pencil className="h-4 w-4" />{uz.edit}</Link></Button>
-                    <Button variant="ghost" size="icon" onClick={() => removeTest(t.id)} className="text-destructive hover:bg-destructive/10">
+                    <Button aria-label={`${t.title} testini o'chirish`} variant="ghost" size="icon" onClick={() => removeTest(t.id)} className="text-destructive hover:bg-destructive/10">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
