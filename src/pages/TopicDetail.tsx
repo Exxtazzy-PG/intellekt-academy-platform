@@ -38,7 +38,7 @@ const TopicDetail = () => {
     setTopic(t);
     setTests(ts ?? []);
     if (ts && ts.length) {
-      const { data: qs } = await supabase.from("questions").select("test_id").in("test_id", ts.map((x) => x.id));
+      const { data: qs } = await supabase.from("questions_safe").select("test_id").in("test_id", ts.map((x) => x.id));
       const m: Record<string, number> = {};
       (qs ?? []).forEach((q) => { m[q.test_id] = (m[q.test_id] ?? 0) + 1; });
       setQuestionCounts(m);
