@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Loader2, Trophy, CheckCircle2, XCircle } from "lucide-react";
 
-interface Q { id: string; question_text: string; option_a: string; option_b: string; option_c: string; option_d: string; correct_option: string; }
+interface Q { id: string; question_text: string; option_a: string; option_b: string; option_c: string; option_d: string; }
 interface A { question_id: string; selected_option: string | null; is_correct: boolean; timed_out: boolean; }
 
 const AssignmentReview = () => {
