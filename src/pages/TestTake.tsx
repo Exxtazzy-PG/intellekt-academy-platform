@@ -33,7 +33,7 @@ const TestTake = () => {
     (async () => {
       const [{ data: t }, { data: qs }] = await Promise.all([
         supabase.from("tests").select("title").eq("id", id).maybeSingle(),
-        supabase.from("questions").select("*").eq("test_id", id).order("position", { ascending: true }),
+        supabase.from("questions_safe").select("*").eq("test_id", id).order("position", { ascending: true }),
       ]);
       setTestTitle(t?.title ?? "");
       document.title = `${t?.title ?? uz.startTest} — ${uz.brand}`;
@@ -47,19 +47,14 @@ const TestTake = () => {
   const finish = async () => {
     if (!user || !id) return;
     setSubmitting(true);
-    const sc = questions.reduce((s, q) => s + (answers[q.id] === q.correct_option ? 1 : 0), 0);
-    setScore(sc);
-    const payload = questions.map((q) => ({ question_id: q.id, selected: answers[q.id] ?? null, correct: q.correct_option }));
-    const { error } = await supabase.from("attempts").insert({
-      test_id: id,
-      student_id: user.id,
-      score: sc,
-      total: questions.length,
-      answers: payload,
-      finished_at: new Date().toISOString(),
+    const payload = questions.map((q) => ({ question_id: q.id, selected: answers[q.id] ?? null }));
+    const { data, error } = await supabase.rpc("submit_test_attempt", {
+      _test_id: id,
+      _answers: payload as any,
     });
     setSubmitting(false);
-    if (error) toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
+    setScore(data?.[0]?.score ?? 0);
     setFinished(true);
   };
 
