@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,8 @@ const Tests = () => {
   const [deadlineHours, setDeadlineHours] = useState(24);
   const [distSaving, setDistSaving] = useState(false);
 
+  useSeo({ title: "Testlar — " + uz.brand, description: "Mavzular asosida tuzilgan testlar ro'yxati, savollar soni va tarqatish imkoniyati.", path: "/tests" });
+
   const load = async () => {
     setLoading(true);
     const { data: tests } = await supabase.from("tests").select("id, title, description, topic_id").order("created_at", { ascending: false });
@@ -59,7 +62,6 @@ const Tests = () => {
   };
 
   useEffect(() => {
-    document.title = `${uz.testsTitle} — ${uz.brand}`;
     load();
   }, []);
 

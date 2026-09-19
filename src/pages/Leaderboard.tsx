@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +25,6 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = `${uz.leaderboardTitle} — ${uz.brand}`;
     (async () => {
       const { data: as } = await supabase
         .from("assignment_students")
@@ -59,6 +59,8 @@ const Leaderboard = () => {
       setLoading(false);
     })();
   }, []);
+
+  useSeo({ title: "Reyting — " + uz.brand, description: "Talabalarning test natijalari bo'yicha umumiy reytingi va eng yaxshi ko'rsatkichlar.", path: "/leaderboard" });
 
   const myRank = rows.findIndex((r) => r.student_id === user?.id) + 1;
 

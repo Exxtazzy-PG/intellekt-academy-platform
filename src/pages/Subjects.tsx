@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,8 @@ const COLORS = [
 ];
 
 const Subjects = () => {
+  useSeo({ title: "Fanlar — " + uz.brand, description: "Platformadagi barcha fanlar: har bir fan uchun mavzular va testlar to'plami.", path: "/subjects" });
+
   const navigate = useNavigate();
   const { role, user } = useAuth();
   const [subjects, setSubjects] = useState<Subject[]>([]);

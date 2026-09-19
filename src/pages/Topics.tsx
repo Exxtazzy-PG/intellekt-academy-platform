@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { uz } from "@/i18n/uz";
+import { useSeo } from "@/lib/seo";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,8 @@ interface Subject { id: string; title: string; }
 const NONE = "__none__";
 
 const Topics = () => {
+  useSeo({ title: "Mavzular — " + uz.brand, description: "Fanlar bo'yicha mavzular ro'yxati va har bir mavzuning o'quv materiali.", path: "/topics" });
+
   const navigate = useNavigate();
   const { role, user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
