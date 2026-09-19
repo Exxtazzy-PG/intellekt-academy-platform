@@ -20,6 +20,7 @@ const AssignmentReview = () => {
   const [score, setScore] = useState({ score: 0, total: 0 });
   const [questions, setQuestions] = useState<Q[]>([]);
   const [answers, setAnswers] = useState<A[]>([]);
+  const [keyMap, setKeyMap] = useState<Map<string, string>>(new Map());
 
   useEffect(() => {
     if (!id || !user) return;
