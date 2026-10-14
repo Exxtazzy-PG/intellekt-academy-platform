@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Avatars: public read by direct path" ON storage.objects;
